@@ -5,3 +5,21 @@ PenguinCheck penguin
 PenguinCheck penguins
 PenguinCheck wildy penguins
 PenguinCheck wilderness penguins
+
+PenguinNumber how many wildy penguins are there
+PenguinNumber number of penguins
+PenguinNumber number of pengs
+PenguinNumber how many penguins
+PenguinNumber how many pengs
+PenguinNumber how many penguins are there this week
+PenguinNumber are there many pengs
+
+PenguinLocation where are they
+PenguinLocation where are the wildy penguins
+PenguinLocation penguin locations
+PenguinLocation the penguin locations
+PenguinLocation location penguins
+PenguinLocation penguins location
+PenguinLocation peng locate
+PenguinLocation wildy penguin location
+PenguinLocation wildy penguin locate
