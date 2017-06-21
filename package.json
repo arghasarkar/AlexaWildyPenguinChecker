@@ -1,0 +1,27 @@
+{
+  "name": "alexa-wildy-penguin-checker",
+  "version": "1.0.0",
+  "description": "Alexa skill for checking if there are any wilderness penguins in Runescape in a given week.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/arghasarkar/AlexaWildyPenguinChecker.git"
+  },
+  "keywords": [
+    "Alexa",
+    "Runescape",
+    "penguins"
+  ],
+  "author": "Argha Sarkar",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/arghasarkar/AlexaWildyPenguinChecker/issues"
+  },
+  "homepage": "https://github.com/arghasarkar/AlexaWildyPenguinChecker#readme",
+  "dependencies": {
+    "node-fetch": "^1.7.1"
+  }
+}
