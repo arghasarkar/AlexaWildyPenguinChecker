@@ -53,7 +53,7 @@ exports.getWildyPenguinNumbers = function() {
     });
 };
 
-exports.getWildyPenguinDetails = function() {
+exports.getWildyPenguinLocation = function() {
     return new Promise((resolve, reject) => {
         fetchPenguinLocations().then(penguins => {
             let filteredPengs = penguins.Activepenguin.filter((penguin) => {

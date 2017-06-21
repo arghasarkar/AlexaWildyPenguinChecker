@@ -40,9 +40,13 @@ exports.handler = (event, context, callback) => {
 
                 switch (event.request.intent.name) {
 
+                    case "": {
+                        getWildernessPenguinStatusSpeech(context);
+                        break;
+                    }
+
                     case "PenguinNumber" : {
                         getPenguinNumbersSpeech(context);
-
                         break;
                     }
 
@@ -100,16 +104,36 @@ exports.handler = (event, context, callback) => {
     }
 };
 
+function getWildernessPenguinStatusSpeech(context) {
+    "use strict";
+
+    let pengs = require("./NonCombat/Penguins");
+
+    pengs.areThereWildyPenguins().then(penguinStatus => {
+        let speech = "";
+        if (penguinStatus) {
+            speech = "There are penguins in wilderness this week.";
+        } else {
+            speech = "There are no wilderness penguins this week.";
+        }
+        context.succeed(
+            generateResponse(
+                buildSpeechletResponse(speech, true),
+                {}
+            )
+        );
+    });
+}
 
 function getPenguinNumbersSpeech(context) {
     "use strict";
 
     let pengs = require("./NonCombat/Penguins");
 
-    pengs.getPenguinNumbers().then( numOfPenguins => {
+    pengs.getWildyPenguinNumbers().then( numOfPenguins => {
         context.succeed(
             generateResponse(
-                buildSpeechletResponse(`There are ${numOfPenguins} penguins to spot this week.`, true),
+                buildSpeechletResponse(`There are ${numOfPenguins} wilderness penguins to spot this week.`, true),
                 {}
             )
         );
@@ -122,11 +146,11 @@ function getPenguinSpeech() {
 
     let pengs = require("./NonCombat/Penguins");
 
-    return pengs.getPenguinLocations().then((json) => {
+    return pengs.getWildyPenguinLocation().then((json) => {
         "use strict";
         let penguins = json.Activepenguin;
 
-        let speech = "There are " + penguins.length + " this week. ";
+        let speech = `There are ${penguins.length} wilderness penguins this week.`;
 
         for (let i = 0; i < penguins.length; i++) {
             let _speech = "The " + penguins[i].name + " penguin was last spotted at " + penguins[i].last_location + ". ";
@@ -169,6 +193,6 @@ pengs.getWildyPenguinNumbers().then(data => {
     console.log(`Number of wildy penguins: ${data}`);
 });
 
-pengs.getWildyPenguinDetails().then(data => {
+pengs.getWildyPenguinLocation().then(data => {
    console.log(`Wildy penguin locations: ${JSON.stringify(data)}`);
 });
