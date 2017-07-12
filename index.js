@@ -18,18 +18,7 @@ exports.handler = (event, context, callback) => {
             case "LaunchRequest": {
                 // Launch request
                 console.log("Launch request");
-
-                getPenguinSpeech().then(speechData => {
-                    "use strict";
-                    console.log("Speech: ", speechData);
-
-                    context.succeed(
-                        generateResponse(
-                            buildSpeechletResponse(speechData, true),
-                            {}
-                        )
-                    );
-                });
+                getPenguinSpeech(context);
                 break;
             }
 
@@ -42,24 +31,11 @@ exports.handler = (event, context, callback) => {
 
                     case "PenguinNumber" : {
                         getPenguinNumbersSpeech(context);
-
                         break;
                     }
 
                     case "PenguinLocation" : {
-
-                        getPenguinSpeech().then(speechData => {
-                            "use strict";
-                            console.log("Speech: ", speechData);
-
-                            context.succeed(
-                                generateResponse(
-                                    buildSpeechletResponse(speechData, true),
-                                    {}
-                                )
-                            );
-                        });
-
+                        getPenguinSpeech(context);
                         break;
                     }
 
@@ -106,7 +82,7 @@ function getPenguinNumbersSpeech(context) {
 
     let pengs = require("./NonCombat/Penguins");
 
-    pengs.getPenguinNumbers().then( numOfPenguins => {
+    pengs.getWildyPenguinNumbers().then( numOfPenguins => {
         context.succeed(
             generateResponse(
                 buildSpeechletResponse(`There are ${numOfPenguins} penguins to spot this week.`, true),
@@ -114,25 +90,34 @@ function getPenguinNumbersSpeech(context) {
             )
         );
     });
-
 }
 
-function getPenguinSpeech() {
+function getPenguinSpeech(context) {
     "use strict";
 
     let pengs = require("./NonCombat/Penguins");
 
+
     return pengs.getPenguinLocations().then((json) => {
         "use strict";
-        let penguins = json.Activepenguin;
-
-        let speech = "There are " + penguins.length + " this week. ";
+        let penguins = json.Activepenguin || [];
+        let speech = "There are " + penguins.length + " penguins this week. ";
 
         for (let i = 0; i < penguins.length; i++) {
-            let _speech = "The " + penguins[i].name + " penguin was last spotted at " + penguins[i].last_location + ". ";
+            let _speech = "";
+            if (penguins[i].name === "wi")
 
             speech += _speech;
         }
+
+        console.log(speech)
+
+        context.succeed(
+            generateResponse(
+                buildSpeechletResponse(speech, true),
+                {}
+            )
+        );
 
         return speech;
     });
@@ -158,17 +143,21 @@ generateResponse = (speechletResponse, sessionAttributes) => {
         response: speechletResponse
     }
 };
-
-var pengs = require("./NonCombat/Penguins");
-
-pengs.areThereWildyPenguins().then(data => {
-    console.log(`Are there wildy penguins: ${data}`);
-});
-
-pengs.getWildyPenguinNumbers().then(data => {
-    console.log(`Number of wildy penguins: ${data}`);
-});
-
-pengs.getWildyPenguinDetails().then(data => {
-   console.log(`Wildy penguin locations: ${JSON.stringify(data)}`);
-});
+//
+// var pengs = require("./NonCombat/Penguins");
+//
+// pengs.getPenguinLocations().then(data => {
+//     //console.log(data);
+// })
+//
+// pengs.areThereWildyPenguins().then(data => {
+//     console.log(`Are there wildy penguins: ${data}`);
+// });
+//
+// pengs.getWildyPenguinNumbers().then(data => {
+//     console.log(`Number of wildy penguins: ${data}`);
+// });
+//
+// pengs.getWildyPenguinDetails().then(data => {
+//    console.log(`Wildy penguin locations: ${JSON.stringify(data)}`);
+// });
